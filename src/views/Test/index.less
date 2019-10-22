@@ -1,0 +1,658 @@
+@charWrapHeight: 435px;
+
+.textSpan() {
+  position: relative;
+  display: inline-block;
+  max-width: 85%;
+  color: #000;
+  font-size: 14px;
+  padding: 5px;
+  overflow-wrap: break-word;
+  border-radius: 5px;
+  line-height: 1.6;
+}
+
+.triangle() {
+  content: '';
+  position: absolute;
+  top: 50%;
+  margin-top: -10px;
+  display: block;
+  border-width: 8px;
+  border-style: solid;
+}
+
+.timeFormat() {
+  color: #999;
+  font-weight: 500;
+  font-size: 12px;
+  user-select: none;
+}
+
+
+
+.testWrap {
+  min-width: 928px;
+  padding: 25px;
+
+  .wChartWrap {
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+
+    // 聊天部分
+    .chatHeader {
+      height: 24px;
+      padding-left: 10px;
+      color: #000;
+      font-size: 14px;
+      font-weight: 500;
+    }
+  
+    .friendHeader {
+      padding: 0 10px 15px 10px;
+  
+      :global {
+        .ant-input {
+          text-align: left;
+          background-color: #f2f2f2;
+        }
+      }
+    }
+
+    .chatWrap {
+      position: relative;
+      height: @charWrapHeight;
+      width: 480px;
+      border-radius: 0 10px 10px 0;
+      background-color: #f2f2f2;
+      box-shadow: 2px 1px 0 0 rgba(0,0,0,0.1);
+  
+      .dropDownBtn {
+        color: #1890ff;
+        outline: none;
+        border: none;
+        background-color: transparent;
+      }
+  
+      .chatBody {
+        display: flex;
+        height: 350px;
+        width: 100%;
+        overflow: hidden;
+  
+        .messageList {
+          width: 100%;
+          max-height: 100%;
+          padding: 0;
+          margin-bottom: 10px;
+          overflow-y: auto;
+          list-style: none;
+  
+          &::-webkit-scrollbar {
+            width: 0;
+          }
+          &::-webkit-scrollbar-thumb {
+            border-radius: 1px;
+          }
+  
+          li {
+            position: relative;
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            line-height: 30px;
+          }
+  
+          .timeStemp {
+            justify-content: center;
+  
+            span {
+              .timeFormat();
+            }
+          }
+  
+          .leftMessage {
+            flex-direction: row-reverse;
+            padding: 0 5px;
+            
+            .chatText {
+              .textSpan();
+              background-color: #B0E46E;
+              margin-right: 10px;
+  
+              &::after {
+                .triangle();
+                right: -13px;
+                border-color: transparent transparent transparent #B0E46E;
+              }
+            }
+          }
+  
+          .rightMessage {
+            flex-direction: row;
+            padding-left: 4px;
+  
+            .chatText {
+              .textSpan();
+              background-color: #fff;
+              margin-left: 10px;
+  
+              &::after {
+                .triangle();
+                left: -13px;
+                border-color: transparent #FFF transparent transparent;
+              }
+            }
+          }
+        }
+  
+      }
+  
+      .fixBottom {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        textarea {
+          resize: none;
+          background-color: #f2f2f2;
+        }
+      }
+    }
+
+    .tidingsWrap {
+      position: relative;
+      height: @charWrapHeight;
+      width: 200px;
+      padding: 10px 0;
+      background-color: #fbfbfb;
+  
+      .tidingsList {
+        list-style: none;
+        padding: 0;
+        height: 385px;
+        overflow-y: auto;
+        margin: 0;
+  
+        .tidingsListItem {
+          display: flex;
+          align-items: center;
+          padding: 10px;
+  
+          .flrightWrap {
+            flex-grow: 1;
+            padding-left: 10px;
+  
+            .userName {
+              cursor: default;
+              margin: 0;
+              color: #000;
+            }
+          }
+        }
+  
+        .active {
+          background-color: #d6d6d6;
+        }
+      }
+    }
+
+    // 通知部分
+    .notifyWrap {
+      height: @charWrapHeight;
+      width: 520px;
+      background-color: #fbfbfb;
+      padding: 10px 20px;
+      z-index: 2;
+
+      .notifyTitle {
+        color: #666;
+
+        :global {
+          .ant-tag {
+            vertical-align: bottom;
+            margin-left: 3px;
+          }
+        }
+      }
+
+      .notifyList {
+        margin: 0;
+        padding: 0;
+
+        .notifyItem {
+          margin-bottom: 10px;
+
+          .timeFormat {
+            .timeFormat();
+            text-align: center;
+          }
+
+          .innerBox {
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            padding: 10px 15px;
+
+            .boxTop {
+              margin-bottom: 10px;
+              
+              label {
+                margin-left: 10px;
+                color: #000;
+                span {
+                  color: #1890ff;
+                }
+              }
+
+              .status {
+                color: #999;
+                float: right;
+                margin-top: 5px;
+              }
+
+              .checkBtnGroup {
+                float: right;
+                
+                button {
+                  outline: none;
+                  border: none;
+                  margin-right: 4px;
+                  cursor: pointer;
+                  color: #999;
+                  background-color: #fbfbfb;
+                }
+
+                button:last-child {
+                  color: red;
+                }
+              }
+            }
+
+            p {
+              margin: 0;
+            }
+          }
+        }
+      }
+    }
+
+    // 好友列表部分
+    .friendListWrap {
+      width: 200px;
+      height: @charWrapHeight;
+      background-color: #fbfbfb;
+      z-index: 2;
+
+      :global {
+        .ant-collapse-item {
+          background-color: #fbfbfb;
+          border: none;
+        }
+        .ant-collapse-header {
+          user-select: none;
+        }
+        .ant-collapse-content-box {
+          padding: 4px 0 0 0;
+        }
+      }
+
+      .friendList {
+        padding: 0;
+        margin: 0;
+
+        .friendListItem {
+          padding: 10px 10px 10px 20px;
+
+          .friendUserName {
+            margin-left: 10px;
+            color: #000;
+            user-select: none;
+            font-size: 14px;
+          }
+        }
+
+        .active {
+          background-color: #d6d6d6;
+        }
+      }
+    }
+
+    // 好友info
+    .infoWrap {
+      width: 480px;
+      height: @charWrapHeight;
+      padding: 40px;
+      border-radius: 0 6px 6px 0;
+      border: 1px solid #fafafa;
+      border-left: none;
+
+      .infoHeader {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px 10px;
+        border-bottom: 1px solid #e6e6e6;
+
+        h3 {
+          font-size: 24px;
+        }
+      }
+
+      ul {
+        padding: 30px 0;
+        margin: 0;
+
+        li {
+          display: flex;
+          margin-bottom: 5px;
+
+          .labelHeader {
+            display: inline-block;
+            width: 43px;
+            height: 22px;
+            margin-right: 28px;
+            color: #888;
+            font-weight: 500;
+            text-align: justify;
+            user-select: none;
+
+            &::after {
+              content: '';
+              display: inline-block;
+              width: 100%;
+            }
+          }
+
+          span {
+            color: #000;
+          }
+        }
+      }
+
+      .sendBtn {
+        display: block;
+        padding: 8px 40px;
+        margin: 0 auto;
+        color: #fff;
+        user-select: none;
+        font-weight: 500;
+        border-radius: 5px;
+        background-color: #51A938;
+        outline: none;
+        border: none;
+      }
+    }
+
+    // 朋友圈
+    .momentsWrap {
+      position: relative;
+      overflow: hidden;
+      height: @charWrapHeight;
+      width: 520px;
+      border: 1px solid #fafafa;
+      border-left: none;
+      border-radius: 0 6px 6px 0;
+
+      .refreshWrap {
+        position: absolute;
+        top: 70px;
+        left: 22px;
+        width: 20px;
+        height: 20px;
+
+        svg {
+          cursor: pointer;
+        }
+
+        .momentsFresh {
+          animation: momentFresh 1s linear infinite;
+        }
+
+
+        &::before {
+          content: '';
+          top: -77px;
+          left: 8px;
+          position: absolute;
+          display: block;
+          height: 80px;
+          width: 1px;
+          background-color: #B0E46E;
+        }
+
+      }
+
+      :global {
+        .ant-drawer-header {
+          border-bottom: none;
+          padding-bottom: 0px;
+        }
+        .ant-avatar {
+          flex-shrink: 0;
+          user-select: none;
+        }
+      }
+
+      .momentsHeader {
+        padding: 20px 45px;
+        border-bottom: 1px solid #fbfbfb;
+        background-color: #fff;
+
+        .ownWrap {
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+
+          span {
+            margin-right: 10px;
+            color: #000;
+            font-weight: 500;
+            user-select: none;
+          }
+        }
+
+        h1 {
+          color: #51A938;
+          user-select: none;
+        }
+      }
+
+      .momentsList {
+        margin: 0;
+        overflow-y: auto;
+        height: 80%;
+        padding: 20px 45px;
+
+        .momentsListItem {
+          display: flex;
+          padding-bottom: 5px;
+          margin-bottom: 14px;
+          border-bottom: 1px solid #f2f2f2;
+
+          section {
+            display: flex;
+            flex-grow: 1;
+            padding: 0 10px;
+            flex-direction: column;
+
+            .imgWrap {
+              display: flex;
+              margin-bottom: 10px;
+
+              img {
+                width: calc(calc(100% / 4) - 10px);
+                height: calc(calc(100% / 4) - 10px);
+
+              }
+            }
+
+            .momentsUserName {
+              user-select: none;
+              color: #51A938;
+            }
+
+            .momentsFooter {
+              display: flex;
+              flex-direction: row;
+              justify-content: space-between;
+              margin-bottom: 1px;
+
+              .heartIcon {
+                vertical-align: -2px;
+                cursor: pointer;
+              }
+
+              i {
+                cursor: pointer;
+              }
+
+              .mCT {
+                color: #888;
+                font-size: 12px;
+                transform: scale(0.9);
+                user-select: none;
+              }
+
+              span {
+                cursor: default;
+                font-size: 12px;
+              }
+            }
+
+            .commentInput {
+              height: 0;
+              visibility: hidden;
+              opacity: 0;
+              padding: 1px 5px;
+              color: rgba(0, 0, 0, .65);
+              font-size: 14px;
+              outline: none;
+              border: 1px solid #eeeeee;
+              transition: height 0.15s ease, opacity 0.15s ease; 
+            }
+
+            .active {
+              height: 27px;
+              visibility: visible;
+              opacity: 1;
+            }
+
+            .commentInput::-webkit-input-placeholder {
+              color: #c9c9c9;
+            }
+
+            .bottomWrap {
+              position: relative;
+              width: 100%;
+              margin: 5px auto 3px;
+              background-color: #f2f2f2;
+
+              &::before {
+                .triangle();
+                top: -4px;
+                left: 6px;
+                border-color: transparent transparent #f2f2f2 transparent;
+              }
+
+              .praiseUserWrap {
+                padding: 2px 4px;
+                border-bottom: 1px solid #e2e2e2;
+
+                span {
+                  color: #1890ff;
+                  font-size: 12px;
+                  user-select: none;
+                }
+              }
+
+              .commentShowArea {
+                padding: 2px 0;
+
+                .listCon {
+                  display: flex;
+                  padding: 2px 4px;
+  
+                  span {
+                    font-size: 12px;
+                    cursor: default;
+                  }
+  
+                  .comUser {
+                    flex-shrink: 0;
+                    color: #1890ff;
+                    user-select: none;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .drawFlex {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        h2 {
+          margin: 0;
+          font-size: 16px;
+        }
+  
+        .publishBtn{
+          padding: 3px 14px;
+          font-size: 12px;
+          cursor: pointer;
+          color: #FFF;
+          border: none;
+          outline: none;
+          border-radius: 4px;
+          background-color: #51A938;
+        }
+  
+      }
+
+      .momentsInput {
+        width: 100%;
+        border: none;
+        outline: none;
+      }
+    }
+
+  }
+
+  .menuWrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 6px 0 0 6px;
+    height: 435px;
+    width: 75px;
+    background-color: #4E4C4C;
+  }
+}
+
+.customize {
+  color: #1890ff;
+}
+
+:global {
+  .ant-col {
+    padding: 0 !important;
+  }
+}
+
+ul {
+  list-style: none;
+}
+
+p {
+  margin: 0;
+}
+
+@keyframes momentFresh {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(90deg); }
+  50% { transform: rotate(180deg); }
+  75% { transform: rotate(270deg); }
+  100% { transform: rotate(360deg); }
+}
