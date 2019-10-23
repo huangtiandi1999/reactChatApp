@@ -22,7 +22,7 @@ import mapListObj from './map';
 
 import styles from './index.less';
 
-class Test extends Component {
+class Chat extends Component {
   state = {
     barrageList: [],
     showDrawer: false,
@@ -774,4 +774,4 @@ const mapStateToProps = (state) => {
 export default connect(
   mapStateToProps,
   effects,
-)(Test);
+)(Chat);
