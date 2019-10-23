@@ -1,9 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const formidable = require('formidable');
-const path = require('path');
-const fs = require('fs');
 
+const {
+  reNameImg,
+  formatFriendlistToIdArray,
+  uniqueArray,
+  formatUserList
+} = require('./serverUtil');
 const User = require('./mongodb/user');
 const Message = require('./mongodb/message');
 const Notify = require('./mongodb/notify');
@@ -34,25 +38,33 @@ router.post('/login', (req, res) => {
 })
 
 router.post('/userlist', (req, res) => {
-  const { keyword } = req.body;
+  const { keyword, userId } = req.body;
   const reg = new RegExp(keyword, 'i');
 
-  User.find({$or: [
-    { Username: {$regex: reg} },
-    { Account: {$regex: reg} }
-  ]})
-  .select('-Password')
-  .exec((err, result) => {
-    if (err) {
-      res.send({
-        errMsg: '查询错误',
-        success: false
-      });
-    } else {
-      res.send({
-        data: result,
-        success: true,
-        errMsg: ''
+  Relation.find({$or: [
+    { 'Auid': userId },
+    { 'Ruid': userId } 
+  ]}, (err, result = []) => {
+    if (!err) {
+      User.find({$or: [
+        { Username: {$regex: reg} },
+        { Account: {$regex: reg} }
+      ]})
+      .lean()
+      .select('-Password')
+      .exec((err, userList) => {
+        if (err) {
+          res.send({
+            errMsg: '查询错误',
+            success: false
+          });
+        } else {
+          res.send({
+            data: formatUserList(userList, result, userId),
+            success: true,
+            errMsg: ''
+          });
+        }
       });
     }
   })
@@ -321,7 +333,7 @@ router.post('/queryMomentsList', (req, res) => {
     { 'Ruid': req.body.userId }
   ]}, (err, result) => {
     if (err) {
-      res.send(500, {
+      res.status(500).send({
         success: false,
         errMsg: '获取好友列表失败'
       });
@@ -340,7 +352,7 @@ router.post('/queryMomentsList', (req, res) => {
       .limit(15)
       .exec((err, result) => {
         if (err) {
-          res.send(500, {
+          res.status(500).send({
             success: false,
             errMsg: '获取朋友圈动态失败'
           });
@@ -468,49 +480,5 @@ router.post('/doComment', (req, res) => {
   })
 })
 
-// 重命名图片
-function reNameImg(imgData) {
-  let newData;
-
-  if (Array.isArray(imgData)) {
-    newData = imgData.map(el => {
-      let newPath = `${path.join(__dirname, './uploadImg')}/${el.name}`;
-      fs.renameSync(el.path, newPath);
-      return `uploadImg/${el.name}`
-    })
-  } else {
-    newPath = `${path.join(__dirname, './uploadImg')}/${imgData.name}`;
-    fs.renameSync(imgData.path, newPath);
-    newData = [`uploadImg/${imgData.name}`];
-  }
-
-  return newData;
-}
-
-// 格式化好友列表为_id数组
-function formatFriendlistToIdArray(arr = [], id) {
-  if (!arr.length) {
-    return arr;
-  }
-
-  return arr.map(el => el.Auid.toString() === id ? el.Ruid.toString() : el.Auid.toString());
-}
-
-// notifyRecord数组去重
-function uniqueArray(arr = [], key, deep) {
-  if (!arr.length) {
-    return arr;
-  }
-
-  let map = new Map();
-
-  return arr.reduce((pre, cur) => {
-    if (!map.has(cur[key][deep])) {
-      map.set(cur[key][deep], true);
-      pre.push(cur);
-    }
-    return pre;
-  }, []);
-}
 
 module.exports = router;

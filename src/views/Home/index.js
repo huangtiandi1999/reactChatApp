@@ -41,6 +41,7 @@ class Home extends Component {
 
     value.trim() && fetchUserList({
       serviceUrl: 'userlist',
+      userId: getItem('user')._id,
       keyword: value.trim(),
     });
   }, 500)
@@ -71,7 +72,10 @@ class Home extends Component {
                   <span>{el.Username}</span>
                   <span>{`（${el.Account}）`}</span>
                 </div>
-                <Button onClick={() => this.setState({modalShow: true, targetUser: el})} size="small" shape="round" icon="user-add"/>
+                {el.status === -1
+                  ? <Button onClick={() => this.setState({modalShow: true, targetUser: el})} size="small" shape="round" icon="user-add"/>
+                  : <span className={styles.status}>已添加</span>
+                }
               </li>
             ))}
           </ul>

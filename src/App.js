@@ -15,7 +15,7 @@ import {
 import { Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux';
 
-import Test from './views/Test';
+import Chat from './views/Chat';
 import Home from './views/Home';
 import { effects } from './model/action';
 import { getItem, removeItem } from './utils/storageUtil';
@@ -167,7 +167,7 @@ class App extends Component {
           <Content>
             <Switch>
               <Route exact path='/' component={Home} />
-              <Route path='/im' component={Test}/>
+              <Route path='/im' component={Chat}/>
             </Switch>
           </Content>
 
