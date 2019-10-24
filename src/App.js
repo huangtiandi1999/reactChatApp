@@ -17,6 +17,7 @@ import { connect } from 'react-redux';
 
 import Chat from './views/Chat';
 import Home from './views/Home';
+import Rank from './views/Rank';
 import { effects } from './model/action';
 import { getItem, removeItem } from './utils/storageUtil';
 import socket from './utils/socket';
@@ -31,6 +32,7 @@ class App extends Component {
     menuList: [
       { title: '用户管理', icon: 'team', path: '/' },
       { title: 'IM双向通讯', icon: 'wechat', path: '/im'},
+      { title: 'B站Rank', icon: 'coffee', path: '/rank'}
     ],
     selectedKeys: ['0'],
     visible: false,
@@ -166,8 +168,9 @@ class App extends Component {
 
           <Content>
             <Switch>
-              <Route exact path='/' component={Home} />
+              <Route exact path='/' component={Home}/>
               <Route path='/im' component={Chat}/>
+              <Route path='/rank' component={Rank}/>
             </Switch>
           </Content>
 

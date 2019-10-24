@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, Radio } from 'antd';
 import { effects } from '../../model/action';
 import { connect } from 'react-redux';
 
 class RegisterComponent extends Component {
-  state = {
-    Account: '',
-  }
-
   handleSubmit = e => {
     const { registerAccount } = this.props;
 
@@ -22,20 +18,18 @@ class RegisterComponent extends Component {
     });
   }
 
-  // confirmAccount = (_, value, callback) => {
-  //   if (value) {
-  //     this.props.confirmAccount({
-  //       serviceUrl: 'confirmAccount',
-  //       Account: value,
-  //     }).then(res => {
-  //       if (!res.success && res.showErr) {
-  //         callback('该账号已被注册，请重新输入其他账号！');
-  //       }
-  //     })
-  //   } else {
-  //     callback()
-  //   }
-  // }
+  confirmAccount = (_, value, callback) => {
+    this.props.confirmAccount({
+      serviceUrl: 'confirmAccount',
+      Account: value,
+    }).then(res => {
+      if (!res.success && res.showErr) {
+        callback('该账号已被注册，请重新输入其他账号！');
+      } else {
+        callback();
+      }
+    })
+  }
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -57,7 +51,6 @@ class RegisterComponent extends Component {
         sm: { span: 24, offset: 8 },
         md: { span: 24, offset: 8 },
       },
-
     }
 
     return (
@@ -73,10 +66,24 @@ class RegisterComponent extends Component {
               {
                 required: true,
                 message: 'Please input your Account!'
+              },
+              {
+                validator: this.confirmAccount
               }
             ],
-            validateTrigger: 'onChange',
+            validateTrigger: 'onBlur',
           })(<Input autoComplete="off"/>)}         
+        </Form.Item>
+        <Form.Item label="性别">
+          {getFieldDecorator('Sex', {
+            initialValue: '男'
+          })(
+            <Radio.Group>
+              <Radio value="男">男</Radio>
+              <Radio value="女">女</Radio>
+              <Radio value="0">保密</Radio>
+            </Radio.Group>
+          )}
         </Form.Item>
         <Form.Item label="Password">
           {getFieldDecorator('Password', {
@@ -104,9 +111,7 @@ class RegisterComponent extends Component {
                 max: 16,
               }
             ]
-          })(<Input autoComplete="off"/>)
-
-          }
+          })(<Input autoComplete="off"/>)}
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
           <Button type="primary" onClick={this.handleSubmit}>Register</Button>
