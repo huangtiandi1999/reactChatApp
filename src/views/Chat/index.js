@@ -583,7 +583,8 @@ class Chat extends Component {
                    className={spreadComment === el._id ? `${styles.commentInput} ${styles.active}` : `${styles.commentInput}`}
                   />
 
-                  <div className={styles.bottomWrap}>
+                  {el.praised.length || el.commentChild.length ? (
+                    <div className={styles.bottomWrap}>
                     {el.praised.length ? (
                       <div className={styles.praiseUserWrap}>
                         <svg style={{marginRight: 4}} t="1571407657100" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3365" width="12" height="12"><path d="M486.4 972.8a25.6 25.6 0 0 1-12.4416-3.2256c-4.8128-2.6624-119.0912-66.6112-235.1104-171.3664-68.6592-61.952-123.4432-125.3376-162.9696-188.416C25.4976 529.3568 0 449.0752 0 371.2A269.1072 269.1072 0 0 1 268.8 102.4c50.176 0 103.4752 18.7904 150.0672 52.9408 27.2384 19.968 50.432 44.032 67.5328 69.5808a282.7264 282.7264 0 0 1 67.5328-69.5808C600.5248 121.1904 653.824 102.4 704 102.4A269.1072 269.1072 0 0 1 972.8 371.2c0 77.8752-25.5488 158.1568-75.8784 238.592-39.4752 63.0784-94.3104 126.464-162.9184 188.416-116.0192 104.7552-230.2976 168.704-235.1104 171.3664a25.6 25.6 0 0 1-12.4416 3.2256zM268.8 153.6A217.856 217.856 0 0 0 51.2 371.2c0 155.648 120.32 297.0624 221.2352 388.352A1420.1856 1420.1856 0 0 0 486.4 917.6064a1420.1856 1420.1856 0 0 0 213.9648-158.0544C801.28 668.3136 921.6 526.848 921.6 371.2A217.856 217.856 0 0 0 704 153.6c-87.1936 0-171.8784 71.7312-193.3312 136.0896a25.6 25.6 0 0 1-48.5376 0C440.6784 225.3312 355.9936 153.6 268.8 153.6z" fill="" p-id="3366"></path></svg>
@@ -604,7 +605,8 @@ class Chat extends Component {
                         }
                       </div>
                     ) : null}
-                  </div>
+                    </div>
+                  ) : null}
                 </section>
               </li>
             ))}
@@ -742,19 +744,19 @@ class Chat extends Component {
   }
 
   render() {
-    const { momentsList } = this.props;
-    console.log(momentsList);
 
     return (
       <React.Fragment>
         <div className={styles.testWrap}>
           <p>Chat Sun</p>
-          <p><Tag color='#f50'>#提示</Tag>我们将提供给你一些示例用户，宁也可以创建自己的用户</p>
+          <p><Tag color='#f50'>#提示</Tag>如果没有账号，请在用户管理注册；已有请直接登录</p>
           <div className={styles.wChartWrap}>
-            <Fragment>
-              {this.renderMenu()}
-              {this.renderTargetBox()}
-            </Fragment>
+            {getItem('user') ? (
+              <Fragment>
+                {this.renderMenu()}
+                {this.renderTargetBox()}
+              </Fragment>
+            ) : <h2>😄</h2>}
           </div>
         </div>
       </React.Fragment>

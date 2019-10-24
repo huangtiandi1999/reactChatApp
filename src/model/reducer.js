@@ -45,7 +45,7 @@ export const reducers = {
   // 更改消息队列 
   changeTidingsReducer: (state, { payload }) => ({
     ...state,
-    tidingsList: [payload, ...state.tidingsList]
+    tidingsList: [{...payload, receiveId: {headImage: payload.receiveObj.headImage}}, ...state.tidingsList]
   }),
 
   // 修改点赞列表
