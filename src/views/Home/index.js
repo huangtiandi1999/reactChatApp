@@ -34,6 +34,7 @@ class Home extends Component {
   handleKeyChange = debounce((e) => {
     const { target: { value } } = e;
     const { fetchUserList } = this.props;
+    const { _id, Account } = getItem('user');
 
     this.setState({
       keyword: value,
@@ -41,7 +42,8 @@ class Home extends Component {
 
     value.trim() && fetchUserList({
       serviceUrl: 'userlist',
-      userId: getItem('user')._id,
+      userId: _id,
+      Account,
       keyword: value.trim(),
     });
   }, 500)

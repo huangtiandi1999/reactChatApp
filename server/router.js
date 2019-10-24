@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const formidable = require('formidable');
+const path = require('path');
 
 const {
   reNameImg,
@@ -38,7 +39,7 @@ router.post('/login', (req, res) => {
 })
 
 router.post('/userlist', (req, res) => {
-  const { keyword, userId } = req.body;
+  const { keyword, userId, Account } = req.body;
   const reg = new RegExp(keyword, 'i');
 
   Relation.find({$or: [
@@ -48,13 +49,13 @@ router.post('/userlist', (req, res) => {
     if (!err) {
       User.find({$or: [
         { Username: {$regex: reg} },
-        { Account: {$regex: reg} }
+        { Account: {$regex: reg, $ne: Account} },
       ]})
       .lean()
       .select('-Password')
       .exec((err, userList) => {
         if (err) {
-          res.send({
+          res.status(500).send({
             errMsg: '查询错误',
             success: false
           });
@@ -89,7 +90,6 @@ router.post('/signout', (req, res) => {
 })
 
 router.post('/registerAccount', (req, res) => {
-  console.log(req.body)
   new User({...req.body, headImage: '/defaultHeadImage.jpeg', createTime: +Date.now()}).save(err => {
     console.log(err)
     if (err) {
@@ -274,7 +274,7 @@ router.post('/queryFriendsById', (req, res) => {
   })
   .exec((err, result) => {
     if (err) {
-      res.send(500, {
+      res.status(500).send({
         success: false,
         errMsg: '服务器错误'
       });

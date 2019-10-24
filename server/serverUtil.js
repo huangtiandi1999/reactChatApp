@@ -54,10 +54,6 @@ function formatUserList(preArr, vinArr, key) {
   console.log(a);
   console.log(typeof a[0]);
 
-  if (!preArr.length || !vinArr.length) {
-    return preArr;
-  }
-
   return preArr.map(el => ({...el, status: a.indexOf(el._id.toString())}))
 }
 
