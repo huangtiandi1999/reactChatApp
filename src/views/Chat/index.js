@@ -43,7 +43,7 @@ class Chat extends Component {
     currentTidings: -1, // 当前选择的消息窗口
     currentFriend: -1, // 当前选择的好友索引
     currentFriendObj: null,
-    currentSelectBox: 4, // 当前选择的menu，默认是tidings窗口
+    currentSelectBox: 1, // 当前选择的menu，默认是tidings窗口
 
     notifyFlag: false, // 请求通知记录的flag，用户选择该窗口只请求一次
   } 
@@ -213,7 +213,7 @@ class Chat extends Component {
   }
   
   postMsg = msg => {
-    const { Account = '', Username = '', _id, headImage } = getItem('user') || {};
+    const { Account = '', _id, headImage } = getItem('user') || {};
     const { barrageList, currentTidings } = this.state;
     const len = barrageList.length;
     let timeStemp;
@@ -226,12 +226,12 @@ class Chat extends Component {
 
     const payload = {
       Account,
-      Username,
       sendId: _id,
       message: msg,
       createTime: +Date.now(),
       timeStemp,
       headImage,
+      currentTidings,
       ...this.state.targetObj,
     }
 
@@ -262,8 +262,8 @@ class Chat extends Component {
           <ul className={styles.tidingsList}>
             {tidingsList.map(el => (
               <li
-              onClick={() => this.handleTidingsItemClick(el.receiveObj)}
-              className={this.state.currentTidings === el.receiveObj._id ? `${styles.tidingsListItem} ${styles.active}` : styles.tidingsListItem}
+              onClick={() => this.handleTidingsItemClick(el)}
+              className={this.state.currentTidings === el._id ? `${styles.tidingsListItem} ${styles.active}` : styles.tidingsListItem}
               key={el.receiveObj._id}
              >
                <Badge count={1}>
@@ -271,7 +271,7 @@ class Chat extends Component {
                </Badge>
                <div className={styles.flrightWrap}>
                  <p className={styles.userName}>{el.receiveObj.Username}</p>
-                 <span>hello world</span>
+                 <span>{el.lastMessage}</span>
                </div>
              </li>
             ))}
@@ -282,11 +282,11 @@ class Chat extends Component {
   }
 
   handleTidingsItemClick = el => {
-    const { Account, Username, _id } = el;
+    const { Account, Username } = el.receiveObj;
     const { fetchChatRecord } = this.props;
 
     this.setState({
-      currentTidings: _id,
+      currentTidings: el._id,
       targetObj: {
         receiveAccount: Account,
         receiveName: Username,

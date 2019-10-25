@@ -13,7 +13,13 @@ const tidingsSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User'
   },
-  receiveObj: Schema.Types.Mixed
+  receiveObj: Schema.Types.Mixed,
+  /**
+   * 严格来说，这是无奈的做法，消息队列应该与聊天记录同时循环渲染
+   * 这样我们每次发送消息都不需要单独操作数据库来存储这一条记录，只需要展示最后一条消息即可
+   */
+  lastMessage: String, 
+
 });
 
 const Tidings = mongoose.model('Tidings', tidingsSchema);

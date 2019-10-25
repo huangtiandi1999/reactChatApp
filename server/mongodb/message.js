@@ -9,7 +9,6 @@ const messageSchema = new Schema({
     type: String,
     required: true,
   },
-  Username: String,
   Account: {
     type: String,
     required: true,

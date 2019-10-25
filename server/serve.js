@@ -5,6 +5,7 @@ const session = require('express-session');
 
 const router = require('./router');
 const Message = require('./mongodb/message');
+const Tidings = require('./mongodb/tidings');
 
 const app = express();
 const server = require('http')
@@ -55,7 +56,9 @@ io.on('connection', socket => {
   socket.on('sendTo', (mesObj) => {
     let targetSocket = map.get(mesObj.receiveAccount);
     let status = 0;
-    
+    let { currentTidings, message } = mesObj;
+    Reflect.deleteProperty(mesObj, 'tidingsListItem');
+
     if (targetSocket) {
       targetSocket.emit('message', mesObj);
       status = 1;
@@ -71,7 +74,13 @@ io.on('connection', socket => {
       if (err) {
         socket.emit('handleError', '数据接收异常，发送失败');
       }
+      Tidings.findByIdAndUpdate(currentTidings, {lastMessage: message}, (err) => {
+        if (err) {
+          console.log(err);
+        }
+      })
     });
+    
   })
 
   socket.on('rFriend', (rObj) => {
