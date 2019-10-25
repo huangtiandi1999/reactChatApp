@@ -176,7 +176,6 @@
   
         .tidingsListItem {
           display: flex;
-          align-items: center;
           padding: 10px;
   
           .flrightWrap {
@@ -555,10 +554,11 @@
 
               .praiseUserWrap {
                 padding: 2px 4px;
-                border-bottom: 1px solid #e2e2e2;
+                border-bottom: 1px solid #eeeeee;
 
                 span {
                   color: #1890ff;
+                  margin-right: 5px;
                   font-size: 12px;
                   user-select: none;
                 }
@@ -585,6 +585,10 @@
               }
             }
           }
+        }
+
+        .momentsListItem:last-child {
+          border-bottom: none;
         }
       }
 
