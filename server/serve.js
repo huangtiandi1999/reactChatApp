@@ -4,8 +4,8 @@ const bodyParse = require('body-parser');
 const session = require('express-session');
 
 const router = require('./router');
+const proxyRoute = require('./proxyRoute');
 const Message = require('./mongodb/message');
-const Tidings = require('./mongodb/tidings');
 
 const app = express();
 const server = require('http')
@@ -21,7 +21,7 @@ let map = new Map();
 app.use(cors({
   origin: ['http://localhost:3000', 'http://10.128.154.110:3000'],
   methods: ['GET', 'POST'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'x-requested-with'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-requested-with', 'Set-Cookie'],
   credentials: true,
   maxAge: 172800,
 }))
@@ -36,8 +36,9 @@ app.use(session({
 
 app.use(bodyParse.json())
 
-
 app.use(router);
+
+app.use(proxyRoute);
 
 io.on('connection', socket => {
   console.log(`当前连接客户端:${++sum}`);
@@ -56,8 +57,6 @@ io.on('connection', socket => {
   socket.on('sendTo', (mesObj) => {
     let targetSocket = map.get(mesObj.receiveAccount);
     let status = 0;
-    let { currentTidings, message } = mesObj;
-    Reflect.deleteProperty(mesObj, 'tidingsListItem');
 
     if (targetSocket) {
       targetSocket.emit('message', mesObj);
@@ -74,11 +73,6 @@ io.on('connection', socket => {
       if (err) {
         socket.emit('handleError', '数据接收异常，发送失败');
       }
-      Tidings.findByIdAndUpdate(currentTidings, {lastMessage: message}, (err) => {
-        if (err) {
-          console.log(err);
-        }
-      })
     });
     
   })

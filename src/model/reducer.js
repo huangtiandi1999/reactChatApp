@@ -48,6 +48,22 @@ export const reducers = {
     tidingsList: [{...payload, receiveId: {headImage: payload.receiveObj.headImage}}, ...state.tidingsList]
   }),
 
+  // 更新消息队列的最新消息
+  updateNewMsgReducer: (state, { payload }) => {
+    let newData = state.tidingsList.map(el => {
+      if (el.receiveId._id == payload.currentTidings) {
+        return {...el, lastMessage: payload.message}
+      }
+
+      return el;
+    });
+
+    return {
+      ...state,
+      tidingsList: newData,
+    }
+  },
+
   // 修改点赞列表
   changePraisedListReducer: (state, { payload }) => {
     const { userId, Comid, flag, Username } = payload;

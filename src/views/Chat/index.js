@@ -107,6 +107,11 @@ class Chat extends Component {
           barrageList: [...this.state.barrageList, data]
         });
       }
+
+      this.props.syncUpdateNewMessage({
+        currentTidings: data.sendId,
+        message: data.message
+      })
     });
 
     socket.on('warnning', data => {
@@ -237,6 +242,10 @@ class Chat extends Component {
 
     if (Account && (currentTidings !== -1)) {
       socket.emit('sendTo', payload);
+      this.props.syncUpdateNewMessage({
+        currentTidings,
+        message: msg
+      });
       this.setState({
         barrageList: [...barrageList, payload],
       });
@@ -262,8 +271,8 @@ class Chat extends Component {
           <ul className={styles.tidingsList}>
             {tidingsList.map(el => (
               <li
-              onClick={() => this.handleTidingsItemClick(el)}
-              className={this.state.currentTidings === el._id ? `${styles.tidingsListItem} ${styles.active}` : styles.tidingsListItem}
+              onClick={() => this.handleTidingsItemClick(el.receiveObj)}
+              className={this.state.currentTidings === el.receiveObj._id ? `${styles.tidingsListItem} ${styles.active}` : styles.tidingsListItem}
               key={el.receiveObj._id}
              >
                <Badge count={1}>
@@ -282,11 +291,11 @@ class Chat extends Component {
   }
 
   handleTidingsItemClick = el => {
-    const { Account, Username } = el.receiveObj;
+    const { Account, Username, _id } = el;
     const { fetchChatRecord } = this.props;
 
     this.setState({
-      currentTidings: el._id,
+      currentTidings: _id,
       targetObj: {
         receiveAccount: Account,
         receiveName: Username,
@@ -744,7 +753,6 @@ class Chat extends Component {
   }
 
   render() {
-
     return (
       <React.Fragment>
         <div className={styles.testWrap}>

@@ -80,6 +80,19 @@ export const effects = {
     )
   ),
 
+  // 更新消息队列的最新消息
+  syncUpdateNewMessage: (params) => (
+    (dispatch) => {
+      console.log(params);
+      dispatch({
+        type: 'updateNewMsgReducer',
+        payload: {
+          ...params
+        }
+      });
+    }
+  ),
+
   // 退出登录
   fetchSignout: (params) => (
     () => commonService(params).then(res => {
