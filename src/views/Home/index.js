@@ -48,6 +48,15 @@ class Home extends Component {
     });
   }, 500)
 
+  // 搜索关键字高亮
+  searchKeyHighShow = ({Username, Account}) => {
+    let { keyword } = this.state;
+    const strU = Username.replace(keyword, `<b class="highTip">${keyword}</b>`);
+    const strA = Account.replace(keyword, `<b class="highTip">${keyword}</b>`)
+
+    return `${strU}（${strA}）`;
+  }
+
   renderSearchResult = () => {
     const { userlist = [] } = this.props;
     const { keyword } = this.state;
@@ -61,7 +70,6 @@ class Home extends Component {
             </div>
             { userlist.map((el, index) => (
               <li
-              
               key={index}
               className={styles.searchListItem}
               >
@@ -70,10 +78,7 @@ class Home extends Component {
                 className={styles.headImage}
                 src={el.headImage}
                 />
-                <div className={styles.headInfo}>
-                  <span>{el.Username}</span>
-                  <span>{`（${el.Account}）`}</span>
-                </div>
+                <div className={styles.headInfo} dangerouslySetInnerHTML={{__html: this.searchKeyHighShow(el)}}></div>
                 {el.status === -1
                   ? <Button onClick={() => this.setState({modalShow: true, targetUser: el})} size="small" shape="round" icon="user-add"/>
                   : <span className={styles.status}>已添加</span>
