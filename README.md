@@ -1,4 +1,40 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 已完成
+
+- [x] 登录
+
+- [x] 注册(前端验证)
+
+- [x] 用户查询
+
+- [x] 添加好友
+
+- [x] 即时通讯
+
+- [x] 发送消息是双方头像下方展示最新一条消息
+
+- [x] 请求通知(对方在线时，将收到左边弹出的通知)
+
+- [x] 同意或拒绝对方的添加好友请求
+
+- [x] 发朋友圈，支持文字、图片、文字➕图片
+
+- [x] 朋友圈点赞(A点赞B，与A无好友关系的无法看到点赞)
+
+- [x] 朋友圈评论
+
+- [x] 消息时间以及朋友圈时间的格式化(参考的微信)
+
+## 未完成
+
+- [ ] 删除好友
+
+- [ ] 删除消息队列中的一项
+
+- [ ] 第一次添加好友成功系统提示消息(类似qq)
+
+- [ ] 群聊
+
+- [ ] 朋友圈评论的回复
 
 ## Available Scripts
 
@@ -27,42 +63,3 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
