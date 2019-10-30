@@ -1,3 +1,14 @@
+## 如何开始
+1. git clone到本地之后 cd reactChatApp
+
+2. npm install 安装依赖(确保已安装node环境)
+
+3. 安装mongoDB，并启动数据库
+
+4. cd server, node serve.js 启动服务器
+
+5. npm run start 启动程序
+
 ## 已完成
 
 - [x] 登录
