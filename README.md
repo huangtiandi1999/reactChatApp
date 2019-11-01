@@ -47,6 +47,14 @@
 
 - [ ] 朋友圈评论的回复
 
+## 部分展示
+
+<img src="https://raw.githubusercontent.com/wojiaowanyuxuan/gitImg/master/chatImg1.png" height="50%" width="50%"/><img src="https://raw.githubusercontent.com/wojiaowanyuxuan/gitImg/master/chatImg2.png" height="50%" width="50%"/>
+
+<img src="https://raw.githubusercontent.com/wojiaowanyuxuan/gitImg/master/chatImg4.png" height="50%" width="50%"/><img src="https://raw.githubusercontent.com/wojiaowanyuxuan/gitImg/master/chatImg5.png" height="50%" width="50%"/>
+
+<img src="https://raw.githubusercontent.com/wojiaowanyuxuan/gitImg/master/chatImg3.png" height="50%" width="50%"/><img src="https://raw.githubusercontent.com/wojiaowanyuxuan/gitImg/master/chatImg6.png" height="50%" width="50%"/>
+
 ## Available Scripts
 
 In the project directory, you can run:
