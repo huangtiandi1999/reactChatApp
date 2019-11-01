@@ -47,6 +47,8 @@
 
 - [ ] 朋友圈评论的回复
 
+- [ ] 接收到非来自消息队列的消息后，及时生成消息窗口并置顶
+
 ## 部分展示
 
 <img src="https://raw.githubusercontent.com/wojiaowanyuxuan/gitImg/master/chatImg1.png" height="50%" width="50%"/><img src="https://raw.githubusercontent.com/wojiaowanyuxuan/gitImg/master/chatImg2.png" height="50%" width="50%"/>
