@@ -23,6 +23,8 @@
 
 - [x] 发送消息是双方头像下方展示最新一条消息
 
+- [x] 接收到非来自消息队列的消息后，及时生成消息窗口并置顶
+
 - [x] 请求通知(对方在线时，将收到左边弹出的通知)
 
 - [x] 同意或拒绝对方的添加好友请求
@@ -46,6 +48,14 @@
 - [ ] 群聊
 
 - [ ] 朋友圈评论的回复
+
+## 部分展示
+
+<img src="https://raw.githubusercontent.com/wojiaowanyuxuan/gitImg/master/chatImg1.png" height="50%" width="50%"/><img src="https://raw.githubusercontent.com/wojiaowanyuxuan/gitImg/master/chatImg2.png" height="50%" width="50%"/>
+
+<img src="https://raw.githubusercontent.com/wojiaowanyuxuan/gitImg/master/chatImg4.png" height="50%" width="50%"/><img src="https://raw.githubusercontent.com/wojiaowanyuxuan/gitImg/master/chatImg5.png" height="50%" width="50%"/>
+
+<img src="https://raw.githubusercontent.com/wojiaowanyuxuan/gitImg/master/chatImg3.png" height="50%" width="50%"/><img src="https://raw.githubusercontent.com/wojiaowanyuxuan/gitImg/master/chatImg6.png" height="50%" width="50%"/>
 
 ## Available Scripts
 
