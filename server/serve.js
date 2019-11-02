@@ -6,6 +6,7 @@ const session = require('express-session');
 const router = require('./router');
 const proxyRoute = require('./proxyRoute');
 const Message = require('./mongodb/message');
+const Tidings = require('./mongodb/tidings');
 
 const app = express();
 const server = require('http')
@@ -56,7 +57,18 @@ io.on('connection', socket => {
 
   socket.on('sendTo', (mesObj) => {
     let targetSocket = map.get(mesObj.receiveAccount);
+    let headImage = mesObj.headImage;
     let status = 0;
+    let saveObj = {
+      sendId: mesObj.currentTidings,
+      receiveId: mesObj.sendId,
+      receiveObj: {
+        Account: mesObj.Account,
+        _id: mesObj.sendId,
+        headImage: mesObj.headImage,
+        Username: mesObj.Username
+      }
+    }
 
     if (targetSocket) {
       targetSocket.emit('message', mesObj);
@@ -64,8 +76,33 @@ io.on('connection', socket => {
     } else {
       socket.emit('warnning', '对方已离线状态');
     }
+    // 如果对方消息队列不存在则创建一个tidings并返回到实时队列中
+    Tidings.findOne({'receiveObj._id': mesObj.sendId, sendId: mesObj.currentTidings}, (err, res) => {
+      if (!res) {
+        console.log(`接收方${mesObj.receiveName}不存在对你的消息窗口`);
+        new Tidings({
+          ...saveObj
+        })
+        .save((err) => {
+          if (err) {
+            console.log('生成窗口错误');
+          } else {
+            if (targetSocket) {
+              targetSocket.emit('addNewTiding', {
+                ...saveObj,
+                receiveId: {
+                  _id: mesObj.sendId,
+                  headImage,
+                }
+              });
+            }
+          }
+        });
+      }
+    });
 
     Reflect.deleteProperty(mesObj, 'headImage');
+
     new Message({
       status,
       ...mesObj,

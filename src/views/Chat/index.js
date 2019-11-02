@@ -95,6 +95,7 @@ class Chat extends Component {
   }
   
   monitorSocket = () => {
+    const { addNewTidings } = this.props;
     socket.on('message', data => {
       if (data.sendId === this.state.currentTidings) {
         /* 
@@ -113,6 +114,10 @@ class Chat extends Component {
         message: data.message
       })
     });
+
+    socket.on('addNewTiding', t => {
+      addNewTidings(t);
+    })
 
     socket.on('warnning', data => {
         message.warning(data, 2);
@@ -218,7 +223,7 @@ class Chat extends Component {
   }
   
   postMsg = msg => {
-    const { Account = '', _id, headImage } = getItem('user') || {};
+    const { Account = '', _id, headImage, Username } = getItem('user') || {};
     const { barrageList, currentTidings } = this.state;
     const len = barrageList.length;
     let timeStemp;
@@ -230,6 +235,7 @@ class Chat extends Component {
     }
 
     const payload = {
+      Username,
       Account,
       sendId: _id,
       message: msg,

@@ -83,7 +83,6 @@ export const effects = {
   // 更新消息队列的最新消息
   syncUpdateNewMessage: (params) => (
     (dispatch) => {
-      console.log(params);
       dispatch({
         type: 'updateNewMsgReducer',
         payload: {
@@ -280,6 +279,17 @@ export const effects = {
       })
     )
   ),
+
+  // 对方如果没有对发送者的tidings，则当他在线的时候强行塞入他的tidings集合
+  addNewTidings: (params) => (
+    (dispatch) => {
+      dispatch({
+        type: 'createNewTidings',
+        payload: params
+      });
+    }
+  ),
+
 
   // 朋友圈动态
   fetchMomentsList: (params) => (

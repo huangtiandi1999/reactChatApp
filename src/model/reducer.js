@@ -42,16 +42,22 @@ export const reducers = {
     };
   },
 
-  // 更改消息队列 
+  // 单击发消息时更改消息队列
   changeTidingsReducer: (state, { payload }) => ({
     ...state,
     tidingsList: [{...payload, receiveId: {headImage: payload.receiveObj.headImage}}, ...state.tidingsList]
   }),
 
+  // 给对方发消息更改对方的消息队列
+  createNewTidings: (state, { payload }) => ({
+    ...state,
+    tidingsList: [payload, ...state.tidingsList]
+  }),
+
   // 更新消息队列的最新消息
   updateNewMsgReducer: (state, { payload }) => {
     let newData = state.tidingsList.map(el => {
-      if (el.receiveId._id == payload.currentTidings) {
+      if (el.receiveObj._id == payload.currentTidings) {
         return {...el, lastMessage: payload.message}
       }
 
