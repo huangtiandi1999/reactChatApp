@@ -355,6 +355,26 @@ export const effects = {
         return true;
       }) 
     )
-  )
+  ),
 
+  // 删除好友
+  removeFriendItem: (params) => (
+    (dispatch) => {
+      commonService(params).then(res => {
+        const { success, errMsg } = res;
+
+        if (!success) {
+          message.error(errMsg, 2);
+          return;
+        }
+
+        dispatch({
+          type: 'removeFriendReducer',
+          payload: {
+            _id: params._id
+          }
+        });
+      })
+    }
+  )
 }

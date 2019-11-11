@@ -472,12 +472,28 @@ router.post('/doComment', (req, res) => {
     })
 
     doc.save();
-    console.log(doc);
 
     res.send({
       success: true,
     })
   })
+})
+
+router.post('/removeFriendItem', (req, res) => {
+  const { _id } = req.body;
+
+  Relation.remove({_id}, err => {
+    if (err) {
+      res.status(500).send({
+        success: false,
+        errMsg: '删除好友失败'
+      });
+    } else {
+      res.send({
+        success: true
+      });
+    }
+  });
 })
 
 

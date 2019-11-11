@@ -86,7 +86,7 @@ export function formatNotifyTime(time) {
 
 // 格式化好友列表的数组
 export function formatFriendList(arr, id) {
-  return arr.map(item => (item.Auid._id !== id ? item.Auid : item.Ruid));
+  return arr.map(item => (item.Auid._id !== id ? {...item.Auid, key_id: item._id} : {...item.Ruid, key_id: item._id}));
 }
 
 export function confirmKeyInObjArray(arr, key, value) {

@@ -105,6 +105,16 @@ export const reducers = {
       ...state,
       momentsList: newData
     };
+  },
+
+  // 删除好友
+  removeFriendReducer: (state, { payload }) => {
+    const { _id } = payload;
+
+    return {
+      ...state,
+      friendList: state.friendList.filter(el => el._id != _id)
+    }
   }
 }
 
