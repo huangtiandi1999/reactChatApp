@@ -9,7 +9,9 @@ import {
   Badge,
   Collapse,
   Drawer,
-  Upload
+  Upload,
+  Dropdown,
+  Menu,
 } from 'antd';
 
 import { effects } from '../../model/action';
@@ -276,19 +278,24 @@ class Chat extends Component {
         {tidingsList.length ? (
           <ul className={styles.tidingsList}>
             {tidingsList.map(el => (
-              <li
-              onClick={() => this.handleTidingsItemClick(el.receiveObj)}
-              className={this.state.currentTidings === el.receiveObj._id ? `${styles.tidingsListItem} ${styles.active}` : styles.tidingsListItem}
-              key={el.receiveObj._id}
-             >
-               <Badge count={1}>
-                 <Avatar shape="square" size="large" src={el.receiveId.headImage}/>
-               </Badge>
-               <div className={styles.flrightWrap}>
-                 <p className={styles.userName}>{el.receiveObj.Username}</p>
-                 <span>{el.lastMessage}</span>
-               </div>
-             </li>
+              <Dropdown key={el.receiveObj._id} trigger={['contextMenu']} overlay={<Menu>
+                <Menu.Item>置顶</Menu.Item>
+                <Menu.Divider/>
+                <Menu.Item>删除会话</Menu.Item>
+              </Menu>}>
+                <li
+                onClick={() => this.handleTidingsItemClick(el.receiveObj)}
+                className={this.state.currentTidings === el.receiveObj._id ? `${styles.tidingsListItem} ${styles.active}` : styles.tidingsListItem}
+                >
+                  <Badge count={1}>
+                    <Avatar shape="square" size="large" src={el.receiveId.headImage}/>
+                  </Badge>
+                  <div className={styles.flrightWrap}>
+                    <p className={styles.userName}>{el.receiveObj.Username}</p>
+                    <span>{el.lastMessage}</span>
+                  </div>
+                </li>
+              </Dropdown>
             ))}
           </ul>
         ) : null}
@@ -434,17 +441,24 @@ class Chat extends Component {
             {friendList.length ? (
               <ul className={styles.friendList}>
                 { formatFriendList(friendList, getItem('user')._id).map((el, index) => (
-                  <li 
-                  onClick={() => this.setState({
-                    currentFriend: el._id,
-                    currentFriendObj: el
-                  })}
+                  <Dropdown
                   key={`${el._id}${index}`} 
-                  className={this.state.currentFriend === el._id ? `${styles.friendListItem} ${styles.active}` : styles.friendListItem}
+                  trigger={['contextMenu']}
+                  overlay={<Menu>
+                    <Menu.Item onClick={() => {this.removeFriend(el['key_id'])}}>移除好友</Menu.Item>
+                  </Menu>}
                   >
-                    <Avatar shape="square" src={el.headImage} />
-                    <label className={styles.friendUserName}>{el.Username}</label>
-                  </li>
+                    <li
+                    onClick={() => this.setState({
+                      currentFriend: el._id,
+                      currentFriendObj: el
+                    })}
+                    className={this.state.currentFriend === el._id ? `${styles.friendListItem} ${styles.active}` : styles.friendListItem}
+                    >
+                      <Avatar shape="square" src={el.headImage} />
+                      <label className={styles.friendUserName}>{el.Username}</label>
+                    </li>
+                  </Dropdown>
                 ))}
               </ul>
             ) : null }
@@ -452,6 +466,14 @@ class Chat extends Component {
         </Collapse>
       </div>
     )
+  }
+
+  removeFriend = (id) => {
+    const { removeFriendItem } = this.props;
+    removeFriendItem({
+      serviceUrl: 'removeFriendItem',
+      _id: id
+    })
   }
 
   renderFriendInfo = () => {
@@ -462,7 +484,14 @@ class Chat extends Component {
         {currentFriendObj ? (
           <Fragment>
             <div className={styles.infoHeader}>
-              <h3>{currentFriendObj.Username} <Icon style={{fontSize: 14, color: '#65b5ea', marginLeft: 6, verticalAlign: 'middle'}} type="man"/></h3>
+              <h3>
+                {currentFriendObj.Username}
+                {currentFriendObj.Sex === '男' ? (
+                  <Icon style={{fontSize: 14, color: '#65b5ea', marginLeft: 6, verticalAlign: 'middle'}} type='man'/> 
+                ) : (
+                  <Icon style={{fontSize: 14, color: 'hotpink', marginLeft: 6, verticalAlign: 'middle'}} type='woman'/> 
+                )}
+              </h3>
               <Avatar src={currentFriendObj.headImage} shape="square" size={68}/>
             </div>
             <ul>
