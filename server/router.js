@@ -496,5 +496,22 @@ router.post('/removeFriendItem', (req, res) => {
   });
 })
 
+router.post('/removeTidings', (req, res) => {
+  const { _id } = req.body;
+
+  Tidings.remove({_id}, err => {
+    if (err) {
+      res.status(500).send({
+        success: false,
+        errMsg: '删除失败'
+      });
+    } else {
+      res.send({
+        success: true
+      })
+    }
+  });
+})
+
 
 module.exports = router;

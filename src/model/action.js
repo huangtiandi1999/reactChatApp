@@ -357,8 +357,8 @@ export const effects = {
     )
   ),
 
-  // 删除好友
-  removeFriendItem: (params) => (
+  // 删除好友/消息tidings
+  removeListItem: (params) => (
     (dispatch) => {
       commonService(params).then(res => {
         const { success, errMsg } = res;
@@ -369,12 +369,33 @@ export const effects = {
         }
 
         dispatch({
-          type: 'removeFriendReducer',
+          type: params.reducerType,
           payload: {
             _id: params._id
           }
         });
       })
     }
-  )
+  ),
+
+  // // 删除会话
+  // removeTidingsItem: (params) => (
+  //   (dispatch) => {
+  //     commonService(params).then(res => {
+  //       const { success, errMsg } = res;
+
+  //       if (!success) {
+  //         message.error(errMsg, 2);
+  //         return;
+  //       }
+
+  //       dispatch({
+  //         type: 'removeTidingsReducer',
+  //         payload: {
+  //           _id: 
+  //         }
+  //       })
+  //     })
+  //   }
+  // )
 }

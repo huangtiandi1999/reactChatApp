@@ -115,6 +115,16 @@ export const reducers = {
       ...state,
       friendList: state.friendList.filter(el => el._id != _id)
     }
+  },
+
+  // 删除某个消息队列
+  removeTidingsReducer: (state, { payload }) => {
+    const { _id } = payload;
+
+    return {
+      ...state,
+      tidingsList: state.tidingsList.filter(e => e._id != _id)
+    }
   }
 }
 

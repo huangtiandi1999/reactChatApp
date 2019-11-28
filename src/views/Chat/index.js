@@ -268,6 +268,7 @@ class Chat extends Component {
   // 消息队列
   renderTidings = () => {
     const { tidingsList } = this.props;
+    console.log(tidingsList);
 
     return (
       <div className={styles.tidingsWrap}>
@@ -281,7 +282,7 @@ class Chat extends Component {
               <Dropdown key={el.receiveObj._id} trigger={['contextMenu']} overlay={<Menu>
                 <Menu.Item>置顶</Menu.Item>
                 <Menu.Divider/>
-                <Menu.Item>删除会话</Menu.Item>
+                <Menu.Item onClick={() => this.removeTidings(el._id)}>删除会话</Menu.Item>
               </Menu>}>
                 <li
                 onClick={() => this.handleTidingsItemClick(el.receiveObj)}
@@ -326,6 +327,17 @@ class Chat extends Component {
           barrageList: res.chatRecord
         });
       }
+    })
+  }
+
+  // 删除会话
+  removeTidings = (id) => {
+    const { removeListItem } = this.props;
+
+    removeListItem({
+      serviceUrl: 'removeTidings',
+      reducerType: 'removeTidingsReducer',
+      _id: id
     })
   }
 
@@ -469,9 +481,10 @@ class Chat extends Component {
   }
 
   removeFriend = (id) => {
-    const { removeFriendItem } = this.props;
-    removeFriendItem({
+    const { removeListItem } = this.props;
+    removeListItem({
       serviceUrl: 'removeFriendItem',
+      reducerType: 'removeFriendReducer',
       _id: id
     })
   }
