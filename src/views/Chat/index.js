@@ -35,6 +35,7 @@ class Chat extends Component {
     fileList: [], // 朋友圈图片
     spin: false, // 朋友圈图标旋转flag
     spreadComment: -1, // 展开的评论
+    showMessageList: false,
 
     selectMenu: [
       { type: 'message', value: 1},
@@ -118,7 +119,8 @@ class Chat extends Component {
     });
 
     socket.on('addNewTiding', t => {
-      addNewTidings(t);
+      // addNewTidings(t);
+      this.queryTidingsList();
     })
 
     socket.on('warnning', data => {
@@ -139,7 +141,7 @@ class Chat extends Component {
   }
 
   renderChat = () => {
-    const { barrageList, targetObj: { receiveName } } = this.state;
+    const { barrageList, showMessageList, targetObj: { receiveName } } = this.state;
 
     return (
       <div className={styles.chatWrap}>
@@ -148,7 +150,7 @@ class Chat extends Component {
         </header>
 
         <div className={styles.chatBody}>
-          { barrageList.length ? 
+          { showMessageList ? 
             this.renderMessageList(barrageList)
             : null
           }
@@ -268,7 +270,6 @@ class Chat extends Component {
   // 消息队列
   renderTidings = () => {
     const { tidingsList } = this.props;
-    console.log(tidingsList);
 
     return (
       <div className={styles.tidingsWrap}>
@@ -310,6 +311,7 @@ class Chat extends Component {
 
     this.setState({
       currentTidings: _id,
+      showMessageList: true,
       targetObj: {
         receiveAccount: Account,
         receiveName: Username,
@@ -338,6 +340,17 @@ class Chat extends Component {
       serviceUrl: 'removeTidings',
       reducerType: 'removeTidingsReducer',
       _id: id
+    })
+    .then(res => {
+      if (res) {
+        this.setState({
+          showMessageList: false,
+          targetObj: {
+            receiveName: '',
+            receiveAccount: ''
+          }
+        })
+      }
     })
   }
 

@@ -359,13 +359,13 @@ export const effects = {
 
   // 删除好友/消息tidings
   removeListItem: (params) => (
-    (dispatch) => {
+    (dispatch) => (
       commonService(params).then(res => {
         const { success, errMsg } = res;
 
         if (!success) {
           message.error(errMsg, 2);
-          return;
+          return false;
         }
 
         dispatch({
@@ -374,28 +374,8 @@ export const effects = {
             _id: params._id
           }
         });
+        return true;
       })
-    }
+    )
   ),
-
-  // // 删除会话
-  // removeTidingsItem: (params) => (
-  //   (dispatch) => {
-  //     commonService(params).then(res => {
-  //       const { success, errMsg } = res;
-
-  //       if (!success) {
-  //         message.error(errMsg, 2);
-  //         return;
-  //       }
-
-  //       dispatch({
-  //         type: 'removeTidingsReducer',
-  //         payload: {
-  //           _id: 
-  //         }
-  //       })
-  //     })
-  //   }
-  // )
 }

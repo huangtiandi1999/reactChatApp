@@ -345,7 +345,9 @@ router.post('/queryMomentsList', (req, res) => {
       .populate('userId', '-password')
       .populate({
         path: 'praised',
-        match: {_id: {$in: forRes}}, // 该条朋友圈的点赞人 必须互为好友才能看到
+        // 该条朋友圈的点赞人 必须互为好友才能看到, 比如说A和B，A和C都是好友，但是B没有C的好友
+        // 那么当B获取朋友圈时,会在这条朋友圈的点赞列表里过滤，查找的id必须是B的好友，所以c的点赞b看不到
+        match: {_id: {$in: forRes}},
         select: 'Username'
       })
       .sort({'_id': -1})
@@ -498,8 +500,9 @@ router.post('/removeFriendItem', (req, res) => {
 
 router.post('/removeTidings', (req, res) => {
   const { _id } = req.body;
+  console.log(_id);
 
-  Tidings.remove({_id}, err => {
+  Tidings.deleteMany({_id}, err => {
     if (err) {
       res.status(500).send({
         success: false,
@@ -511,6 +514,15 @@ router.post('/removeTidings', (req, res) => {
       })
     }
   });
+})
+
+// 修改头像
+router.post('/modifyHeadImage', (req, res) => {
+  
+  console.log(req.body);
+  res.send({
+    success: true
+  })
 })
 
 
