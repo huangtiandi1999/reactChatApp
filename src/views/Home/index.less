@@ -1,6 +1,5 @@
 .wrapper {
   position: relative;
-  height: 100%;
   margin: 0;
   padding: 15px;
 
@@ -94,6 +93,20 @@
       text-align: right;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       cursor: default;
+    }
+  }
+
+  .changeHeadWrap {
+    display: flex;
+    flex-direction: column;
+    height: 230px;
+    width: 110px;
+    margin: 150px auto 0;
+
+    :global {
+      .ant-tag {
+        margin-bottom: 25px;
+      }
     }
   }
 

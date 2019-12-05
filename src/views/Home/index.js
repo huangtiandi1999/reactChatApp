@@ -7,6 +7,8 @@ import {
   Button,
   Modal,
   message,
+  Upload,
+  Icon
 } from 'antd';
 
 import { effects } from '../../model/action';
@@ -25,6 +27,7 @@ class Home extends Component {
     modalShow: false,
     targetUser: null,
     requestMessage: '',
+    newHeadImage: ''
   }
 
   handleSearchBtnPress = value => {
@@ -167,10 +170,41 @@ class Home extends Component {
     })
   }
 
+  beforeUpload = (file) => {
+    const fileReader = new FileReader();
+
+    fileReader.readAsDataURL(file);
+    fileReader.onload = () => {
+      this.setState({
+        newHeadImage: fileReader.result,
+      })
+    }
+    return true;
+  }
+
   render() {
+    const { newHeadImage } = this.state;
+    const upLoadButton = (
+      <div>
+        <Icon type="plus"/>
+        <div>Upload</div>
+      </div>
+    );
+
     return (
        <div className={styles.wrapper}>
          { getItem('user') ? this.renderLoginAfter() : this.renderLoginBefore() }
+         <div className={styles.changeHeadWrap}>
+           <Tag color="#f50">此处更换头像</Tag>
+           <Upload
+           action="http://localhost:8080/modifyHeadImage"
+           listType="picture-card"
+           showUploadList={false}
+           beforeUpload={this.beforeUpload}
+           >
+             {newHeadImage ? <img style={{width: 100, height: 100}} src={newHeadImage}/> : upLoadButton}
+           </Upload>
+         </div>
 
          <Modal
          title="验证消息"
